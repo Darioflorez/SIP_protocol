@@ -42,7 +42,7 @@ public class Free extends State {
 		
 		//System.out.println("INVITE to: " + peer.getPort());
 		
-		ipTelephone.setTimeout(4000);
+		ipTelephone.setTimeout(0);
 		
 		EventListener eventListener = new EventListener(peer, ipTelephone);
 		eventListener.start();
