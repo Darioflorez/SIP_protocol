@@ -23,6 +23,8 @@ public class SendingTROK extends State {
 		int localPort = ipTelephone.getLocalPort();
 		out.println("TROK_"+Integer.toString(localPort));
 		ipTelephone.setTimeout(0);
+		
+		displayProtocoll("--> " + "TROK_"+Integer.toString(localPort));
 		return new WaitingForAck(ipTelephone);
 	}
 }

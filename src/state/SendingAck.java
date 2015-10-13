@@ -21,6 +21,7 @@ public class SendingAck extends State {
 		//System.out.println("--sendAck--");
 		PrintWriter out = ipTelephone.getWriter();
 		out.println("ACK");
+		displayProtocoll("--> ACK");
 		return new Connected(ipTelephone);
 	}
 }

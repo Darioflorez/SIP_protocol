@@ -22,6 +22,12 @@ public class SendingOk extends State {
 	public State sendOk(){
 		PrintWriter out = ipTelephone.getWriter();
 		out.println("OK");
+		displayProtocoll("--> OK");
+		try {
+			ipTelephone.closeConnection();
+		} catch (IOException e) {
+			System.out.println("Problem when closing connection: " + e.getMessage());
+		}
 		return new Free(ipTelephone);
 	}
 }

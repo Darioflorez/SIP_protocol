@@ -19,6 +19,7 @@ public class WaitingForAck extends State {
 	
 	public State receiveAck() throws IOException {
 		ipTelephone.setTimeout(0);
+		displayProtocoll("<-- ACK");
 		return new Connected(ipTelephone);
 	}	
 }

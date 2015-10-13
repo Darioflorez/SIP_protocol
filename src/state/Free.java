@@ -26,6 +26,7 @@ public class Free extends State {
 		ipTelephone.init(peer);
 		ipTelephone.setRemotePort(port);
 		//Send TROK direkt
+		displayProtocoll("<-- INVITE");
 		return new SendingTROK(ipTelephone);
 	}
 	
@@ -35,22 +36,17 @@ public class Free extends State {
 		int localPort = ipTelephone.getLocalPort();
 		ipTelephone.init(peer);
 		
-		displayHangUp();
-		
-		//System.out.println("--Client Port: "+peer.getLocalPort()+"--");
 		PrintWriter out = ipTelephone.getWriter();
-//		Scanner scanner = new Scanner(System.in);
-//		System.out.print("#Sendinvite> ");
-//		String invite = scanner.nextLine();
-		out.println("INVITE_"+Integer.toString(localPort));
-		
-		//System.out.println("INVITE to: " + peer.getPort());
+		String invite = "INVITE_"+Integer.toString(localPort);
+		out.println(invite);
 		
 		ipTelephone.setTimeout(0);
 		
 		EventListener eventListener = new EventListener(peer, ipTelephone);
 		eventListener.start();
 		
+		displayProtocoll("--> " + invite);
+		displayHangUp();
 		return new WaitingForTryRingingOk(ipTelephone);
 	}
 	
@@ -58,12 +54,11 @@ public class Free extends State {
 		System.out.println("\n" + "--Ringing.....");
 		System.out.println("Press 1 to answer.");
 		System.out.println("Press 0 to hang up");
+		System.out.println("Dial@: ");
 	}
 	public void displayHangUp(){
 		System.out.println("\n" + "Ringing.....");
 		System.out.println("Press 0 to hang up");
-	}
-	public void displayInfo(String info){
-		System.out.println("Info: " + info);
+		System.out.println("Dial@: ");
 	}
 }

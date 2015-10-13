@@ -28,6 +28,7 @@ public class Connected extends State {
 	public State receiveBye() {
 		//SendOK automatic
 		State sendingOk = new SendingOk(ipTelephone);
+		displayProtocoll("<-- BYE");
 		return sendingOk.sendOk();
 	}
 	@Override
@@ -35,7 +36,7 @@ public class Connected extends State {
 		//System.out.println("--sendBye--");
 		PrintWriter out = ipTelephone.getWriter();
 		out.println("BYE");
+		displayProtocoll("--> BYE");
 		return new WaitingForOk(ipTelephone);
 	}
-	
 }

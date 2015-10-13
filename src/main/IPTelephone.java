@@ -24,14 +24,14 @@ public class IPTelephone {
 	private InetAddress address;
 	
 	public IPTelephone() throws IOException {
-		stream = new AudioStreamUDP();
-		localPort = stream.getLocalPort();
-		System.out.println("LOCAL_PORT: " + localPort);
 		currentState = new Free(this);
 	}
 	
-	//Send remoteport when init
+	//Allocate all the resources
 	public void init(Socket peer) throws IOException{
+		stream = new AudioStreamUDP();
+		localPort = stream.getLocalPort();
+		System.out.println("LOCAL_PORT: " + localPort);
 		this.peer = peer;
 		in = new BufferedReader
 				(new InputStreamReader(peer.getInputStream()));
@@ -39,80 +39,68 @@ public class IPTelephone {
 		address = InetAddress.getByName(peer.getInetAddress().getHostAddress());
 	}
 	
+	//Get and set resources
 	public void setRemotePort(int remotePort){
 		this.remotePort = remotePort;
 	}
-	
 	public int getRemotePort(){
 		return remotePort;
 	}
-	
 	public int getLocalPort(){
 		return localPort;
 	}
-	
 	public BufferedReader getReader(){
 		return in;
 	}
-	
 	public PrintWriter getWriter(){
 		return out;
 	}
 	
+	
+	//Define all the actions that can lead to another state
 	public String getStateName(){
 		return currentState.getStateName();
 	}
-	
-	//Define all the actions that can lead to another state
-	
-	//---------------------ReceiveActions------------------------------------
+	//---------------------ReceiveActions--------------------------
 	public synchronized void receiveInvite(Socket peer, int port) throws IOException{
 		System.out.println("Invite from: " + peer.getPort());
 		currentState = currentState.receiveInvite(peer, port);
 	}
-	
 	public synchronized void receiveBye() {
 		currentState = currentState.receiveBye();
 	}
-	
 	public synchronized void receiveOk() {
 		currentState = currentState.receiveOk();
 	}
-	
 	public synchronized void receiveTROK(int remotePort) {
 		currentState = currentState.receiveTROK(remotePort);
 	}
-	
 	public synchronized void receiveAck() throws IOException {
 		currentState = currentState.receiveAck();
 	}
-	
 	public synchronized void receiveBusy(){
 		System.out.println("--receiveBusy--");
 		currentState = new Free(this);
 	}
-	//-----------------------------------------------------------------------
-	//---------------------SendActions---------------------------------------
+	
+	//---------------------SendActions----------------------------
 	public synchronized void sendInvite(String hostaddress, int port) throws IOException{
 		currentState = currentState.sendInvite(hostaddress, port);
 	}
-	
 	public synchronized void sendTROK() throws IOException{
 		currentState = currentState.sendTROK();
 	}
-	
 	public synchronized void sendAck() {
 		currentState = currentState.sendAck();
 	}
-	
 	public synchronized void sendOk(){
 		currentState = currentState.sendOk();
 	}
-	
 	public synchronized void sendBye() {
 		currentState = currentState.sendBye();
 	}
-	//-----------------------------------------------------------------------
+	
+	//-------------------Connection related functions-------------
 	
 	public synchronized void timeout() throws IOException{
 		currentState = new Free(this);

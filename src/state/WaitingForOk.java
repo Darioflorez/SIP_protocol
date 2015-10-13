@@ -23,6 +23,7 @@ public class WaitingForOk extends State {
 		} catch (IOException e) {
 			System.out.println("Problem when closing connection: " + e.getMessage());
 		}
+		displayProtocoll("<-- OK");
 		return new Free(ipTelephone);
 	}
 }

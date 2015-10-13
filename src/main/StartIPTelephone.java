@@ -67,7 +67,6 @@ public class StartIPTelephone {
 	public static boolean isValidIP(String ip){
 		//System.out.println(ip.length());
 		String[] ipaddress = ip.split(Pattern.quote("."));
-		System.out.println(ipaddress.length);
 		if(ipaddress.length != 4){
 			return false;
 		}
