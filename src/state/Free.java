@@ -26,6 +26,7 @@ public class Free extends State {
 		//System.out.println("--ReceiveInvite--");
 		ipTelephone.init(peer);
 		ipTelephone.setRemotePort(port);
+		//Send TROK direkt
 		return new SendingTROK(ipTelephone);
 	}
 	

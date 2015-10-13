@@ -20,7 +20,8 @@ public class SendingTROK extends State {
 	
 	public State sendTROK() throws IOException{
 		PrintWriter out = ipTelephone.getWriter();
-		out.println("TROK");
+		int localPort = ipTelephone.getLocalPort();
+		out.println("TROK"+localPort);
 		ipTelephone.setTimeout(0);
 		return new WaitingForAck(ipTelephone);
 	}

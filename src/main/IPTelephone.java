@@ -14,9 +14,6 @@ import state.State;
 
 public class IPTelephone {
 	
-	//INVITE: exchange port in this phase. ex "INVITE_myport"
-	//TROK: ex "TROK_myport"
-	
 	private State currentState;
 	private Socket peer;
 	private BufferedReader in;
