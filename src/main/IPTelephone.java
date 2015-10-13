@@ -22,6 +22,7 @@ public class IPTelephone {
 	private int localPort;
 	private int remotePort;
 	private InetAddress address;
+	private EventListener eventListener;
 	
 	public IPTelephone() throws IOException {
 		currentState = new Free(this);
@@ -31,7 +32,7 @@ public class IPTelephone {
 	public void init(Socket peer) throws IOException{
 		stream = new AudioStreamUDP();
 		localPort = stream.getLocalPort();
-		System.out.println("LOCAL_PORT: " + localPort);
+		//System.out.println("LOCAL_PORT: " + localPort);
 		this.peer = peer;
 		in = new BufferedReader
 				(new InputStreamReader(peer.getInputStream()));
@@ -55,7 +56,10 @@ public class IPTelephone {
 	public PrintWriter getWriter(){
 		return out;
 	}
-	
+	public void initEventListener(){
+		eventListener = new EventListener(peer, this);
+		eventListener.start();
+	}
 	
 	//Define all the actions that can lead to another state
 	public String getStateName(){
@@ -63,7 +67,6 @@ public class IPTelephone {
 	}
 	//---------------------ReceiveActions--------------------------
 	public synchronized void receiveInvite(Socket peer, int port) throws IOException{
-		System.out.println("Invite from: " + peer.getPort());
 		currentState = currentState.receiveInvite(peer, port);
 	}
 	public synchronized void receiveBye() {
@@ -113,6 +116,9 @@ public class IPTelephone {
 	}
 	
 	public void closeConnection() throws IOException{
+		if(eventListener != null){
+			eventListener.close();
+		}
 		if(!peer.isClosed()){
 			peer.close();
 			out.close();

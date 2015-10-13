@@ -9,6 +9,7 @@ public class ConnectionListener extends Thread {
 	private IPTelephone ipTelephone;
 	private int sipPort;
 	private boolean done;
+	private ServerSocket listeningSocket;
 	
 	public ConnectionListener(IPTelephone ipThelephone, int sipPort) {
 		this.ipTelephone = ipThelephone;
@@ -21,21 +22,28 @@ public class ConnectionListener extends Thread {
 //		int port = rand.nextInt((49151 - 1024) + 1) + 1024;
 		
 		//System.out.println("PORT: " + port);
-		try(ServerSocket listeningSocket = new ServerSocket(sipPort))
+		try
 		{
+			listeningSocket = new ServerSocket(sipPort);
 			while(!done){
 				Socket peer = listeningSocket.accept();		
-			//printMargin();
-			//System.out.println("\n"+"--State: "+ ipTelephone.getStateName()+"\n");
-			//System.out.println("--Client Port: " + peer.getPort()+ "--");
-			//System.out.println("--Server Port : " + peer.getLocalPort()+ "--");
-			//printMargin();
 				EventListener phoneServer = new EventListener(peer, ipTelephone);
 				phoneServer.start();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("ConnectionListening bye!");
+			System.out.println("Error when listening for connections!");
+		}
+	}
+	
+	public void close(){
+		done = true;
+		if(listeningSocket != null){
+			try {
+				listeningSocket.close();
+			} catch (IOException e) {
+				System.out.println("Error when closing ServerSocket!");
+			}
 		}
 	}
 	

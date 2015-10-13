@@ -22,13 +22,18 @@ public class Free extends State {
 	
 	@Override
 	public State receiveInvite(Socket peer, int port) throws IOException{
+		//Display Information for user
+		displayProtocoll("<-- INVITE");
+		String inviteFrom = peer.getInetAddress().getHostAddress() + " /"+ peer.getPort();
+		System.out.println(inviteFrom + ": ringing....");
 		displayAnswer();
+		
+		
 		//Create a socket and an audio streaming
 		ipTelephone.init(peer);
 		//Set the port for the audio communication
 		ipTelephone.setRemotePort(port);
 		//Send TROK direkt
-		displayProtocoll("<-- INVITE");
 		return new SendingTROK(ipTelephone);
 	}
 	
@@ -46,8 +51,7 @@ public class Free extends State {
 		
 		ipTelephone.setTimeout(0);
 		
-		EventListener eventListener = new EventListener(peer, ipTelephone);
-		eventListener.start();
+		ipTelephone.initEventListener();
 		
 		displayProtocoll("--> " + invite);
 		displayHangUp();
@@ -55,13 +59,14 @@ public class Free extends State {
 	}
 	
 	public void displayAnswer(){
-		System.out.println("\n" + "--Ringing.....");
+		System.out.println("Press x to close app");
 		System.out.println("Press 1 to answer.");
 		System.out.println("Press 0 to hang up");
 		System.out.println("Dial@: ");
 	}
 	public void displayHangUp(){
 		System.out.println("\n" + "Ringing.....");
+		System.out.println("Press x to close app");
 		System.out.println("Press 0 to hang up");
 		System.out.println("Dial@: ");
 	}

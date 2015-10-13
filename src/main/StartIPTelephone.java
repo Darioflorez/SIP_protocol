@@ -54,7 +54,13 @@ public class StartIPTelephone {
 				case "1":
 					ipTelephone.sendTROK();
 					break;
+				case "x":
+					ipTelephone.closeConnection();
+					listener.close();
+					break;
 				default:
+					System.out.println("Wrong input.");
+					displayOptions();
 					break;
 				}
 			}
@@ -96,6 +102,7 @@ public class StartIPTelephone {
 ////		System.out.println("receiveOk:10");
 //		System.out.println("timeout:11");
 //		System.out.println("loseConnection:12");
+		System.out.println("Press x to close app");
 		System.out.print("Dial@: ");
 
 	}

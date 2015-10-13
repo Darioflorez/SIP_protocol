@@ -41,7 +41,6 @@ public class EventListener extends Thread{
 					else{
 						switch (peerInput) {
 						case "ACK":
-							//Change state to connected
 							ipTelephone.receiveAck();
 							System.out.println("\n"+"--State: " + ipTelephone.getStateName()+ "--");
 							displayOptions();
@@ -62,6 +61,7 @@ public class EventListener extends Thread{
 							ipTelephone.receiveBusy();
 							System.out.println("\n"+"--State: " + ipTelephone.getStateName()+ "--");
 							done = true;
+							ipTelephone.closeConnection();
 							displayOptions();
 							break;
 						default:
@@ -98,8 +98,11 @@ public class EventListener extends Thread{
 		System.out.println("\n" + "EventListener Close!");
 	}
 	
+	public void close(){
+		done = true;
+	}
+	
 	private void displayOptions(){
-		System.out.println();
 		System.out.print("Dial@: ");
 
 	}
