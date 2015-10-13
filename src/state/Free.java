@@ -18,7 +18,6 @@ public class Free extends State {
 	@Override
 	public String getStateName() {
 		return "FREE";
-		//if(stream != null) stream.close();
 	}
 	
 	@Override

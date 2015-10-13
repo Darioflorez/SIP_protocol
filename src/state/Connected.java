@@ -26,7 +26,10 @@ public class Connected extends State {
 	}
 	
 	public State receiveBye() {
-		return new SendingOk(ipTelephone);
+		//SendOK automatic
+		//close streaming
+		State sendingOk = new SendingOk(ipTelephone);
+		return sendingOk.sendOk();
 	}
 	
 	public State sendBye() {

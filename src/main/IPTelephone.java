@@ -129,6 +129,10 @@ public class IPTelephone {
 			peer.close();
 			out.close();
 			in.close();
+			//Close stream if it is open
+			if(stream != null){
+				stream.close();
+			}
 		}
 	}
 	

@@ -100,14 +100,6 @@ public class EventListener extends Thread{
 	
 	private void displayOptions(){
 		System.out.println();
-		System.out.println("Select: ");
-		System.out.println("CloseProgram:0");
-		System.out.println("sendTROK:3");
-		System.out.println("sendAck:5");
-		System.out.println("sendBye:7");
-		System.out.println("sendOk:9");
-		System.out.println("timeout:11");
-		System.out.println("loseConnection:12");
 		System.out.print("Dial@: ");
 
 	}
