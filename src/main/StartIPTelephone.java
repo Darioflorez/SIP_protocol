@@ -32,6 +32,7 @@ public class StartIPTelephone {
 		displayOptions();
 		while(!done){
 			userInput = scanner.readLine();
+			
 			if(userInput.startsWith("invite_")){
 				String[] port = userInput.split("_");
 				String hostaddress = port[1];

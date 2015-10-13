@@ -57,7 +57,7 @@ public class Free extends State {
 	public void displayAnswer(){
 		System.out.println("\n" + "--Ringing.....");
 		System.out.println("Press 1 to answer.");
-		System.out.println("Press 2 to hang up");
+		System.out.println("Press 0 to hang up");
 	}
 	public void displayHangUp(){
 		System.out.println("\n" + "Ringing.....");

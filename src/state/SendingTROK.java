@@ -21,7 +21,6 @@ public class SendingTROK extends State {
 	public State sendTROK() throws IOException{
 		PrintWriter out = ipTelephone.getWriter();
 		int localPort = ipTelephone.getLocalPort();
-		System.out.println("****************"+"TROK"+"_"+localPort+"****************");
 		out.println("TROK_"+Integer.toString(localPort));
 		ipTelephone.setTimeout(0);
 		return new WaitingForAck(ipTelephone);

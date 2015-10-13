@@ -18,11 +18,11 @@ public class WaitingForOk extends State {
 	}
 	
 	public State receiveOk() {
-//		try {
-//			ipTelephone.closeConnection();
-//		} catch (IOException e) {
-//			System.out.println("Problem when closing connection: " + e.getMessage());
-//		}
+		try {
+			ipTelephone.closeConnection();
+		} catch (IOException e) {
+			System.out.println("Problem when closing connection: " + e.getMessage());
+		}
 		return new Free(ipTelephone);
 	}
 }
