@@ -57,6 +57,7 @@ public class StartIPTelephone {
 				case "x":
 					ipTelephone.closeConnection();
 					listener.close();
+					done = true;
 					break;
 				default:
 					System.out.println("Wrong input.");

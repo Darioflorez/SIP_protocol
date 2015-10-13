@@ -31,8 +31,7 @@ public class ConnectionListener extends Thread {
 				phoneServer.start();
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("Error when listening for connections!");
+			System.out.println("Connection listener closed!");
 		}
 	}
 	
@@ -42,7 +41,7 @@ public class ConnectionListener extends Thread {
 			try {
 				listeningSocket.close();
 			} catch (IOException e) {
-				System.out.println("Error when closing ServerSocket!");
+				System.out.println("\nConnection listener close connection!");
 			}
 		}
 	}

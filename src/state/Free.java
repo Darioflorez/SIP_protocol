@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import main.EventListener;
 import main.IPTelephone;
 
 public class Free extends State {

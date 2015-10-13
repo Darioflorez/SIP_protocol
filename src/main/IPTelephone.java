@@ -119,7 +119,7 @@ public class IPTelephone {
 		if(eventListener != null){
 			eventListener.close();
 		}
-		if(!peer.isClosed()){
+		if(peer != null){
 			peer.close();
 			out.close();
 			in.close();
