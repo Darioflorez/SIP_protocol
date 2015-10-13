@@ -32,7 +32,7 @@ public class EventListener extends Thread{
 						ipTelephone.receiveInvite(peer,Integer.parseInt(port[1]));
 						System.out.println("\n"+"--State: " + ipTelephone.getStateName()+ "--");
 						displayOptions();
-					}else if(peerInput.startsWith("TROK__")){
+					}else if(peerInput.startsWith("TROK_")){
 						String[] port = peerInput.split("_");
 						ipTelephone.receiveTROK(Integer.parseInt(port[1]));
 						System.out.println("\n"+"--State: " + ipTelephone.getStateName()+ "--");
@@ -40,12 +40,6 @@ public class EventListener extends Thread{
 					}
 					else{
 						switch (peerInput) {
-//						case "INVITE":
-//							//Send port
-//							ipTelephone.receiveInvite(peer);
-//							System.out.println("\n"+"--State: " + ipTelephone.getStateName()+ "--");
-//							displayOptions();
-//							break;
 						case "ACK":
 							//Change state to connected
 							ipTelephone.receiveAck();
@@ -64,12 +58,6 @@ public class EventListener extends Thread{
 							System.out.println("\n"+"--State: " + ipTelephone.getStateName()+ "--");
 							displayOptions();
 							break;
-//						case "TROK":
-//							//Send port
-//							ipTelephone.receiveTROK();
-//							System.out.println("\n"+"--State: " + ipTelephone.getStateName()+ "--");
-//							displayOptions();
-//							break;
 						case "BUSY":
 							ipTelephone.receiveBusy();
 							System.out.println("\n"+"--State: " + ipTelephone.getStateName()+ "--");

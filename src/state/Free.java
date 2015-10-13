@@ -23,7 +23,7 @@ public class Free extends State {
 	
 	@Override
 	public State receiveInvite(Socket peer, int port) throws IOException{
-		//System.out.println("--ReceiveInvite--");
+		displayAnswer();
 		ipTelephone.init(peer);
 		ipTelephone.setRemotePort(port);
 		//Send TROK direkt
@@ -32,10 +32,11 @@ public class Free extends State {
 	
 	@Override
 	public State sendInvite(String hostaddress, int port) throws IOException{
-		//System.out.println("--SendInvite--");
 		Socket peer = new Socket(hostaddress, port);
 		int localPort = ipTelephone.getLocalPort();
 		ipTelephone.init(peer);
+		
+		displayHangUp();
 		
 		//System.out.println("--Client Port: "+peer.getLocalPort()+"--");
 		PrintWriter out = ipTelephone.getWriter();
@@ -52,5 +53,15 @@ public class Free extends State {
 		eventListener.start();
 		
 		return new WaitingForTryRingingOk(ipTelephone);
+	}
+	
+	public void displayAnswer(){
+		System.out.println("\n" + "--Ringing.....");
+		System.out.println("Press 1 to answer.");
+		System.out.println("Press 2 to hang up");
+	}
+	public void displayHangUp(){
+		System.out.println("\n" + "--Ringing.....");
+		System.out.println("Press 2 to hang up");
 	}
 }

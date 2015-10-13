@@ -3,7 +3,8 @@ package main;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.ConnectException;
+import java.net.SocketException;
+import java.util.regex.Pattern;
 
 public class StartIPTelephone {
 
@@ -13,7 +14,7 @@ public class StartIPTelephone {
 		
 		IPTelephone ipTelephone = new IPTelephone();
 		
-		ConnectionListener listener = new ConnectionListener(ipTelephone);
+		ConnectionListener listener = new ConnectionListener(ipTelephone, SIP_PORT);
 		listener.start();
 		
 		Thread.sleep(1000/4);
@@ -22,67 +23,41 @@ public class StartIPTelephone {
 		BufferedReader scanner = new BufferedReader
 						(new InputStreamReader(System.in));
 		
+		//Client --->Ring : send invite
+		//Server <--- Ringing: send TROK
 		String userInput;
 		boolean done = false;
+		System.out.println("\nWelcome to IPTelephone :)");
+		System.out.println("Invite a peer: invite_ipAddress");
 		displayOptions();
 		while(!done){
 			if(scanner.ready()){
 				userInput = scanner.readLine();
-				//System.out.println("--Your input: "+ userInput + "--");
-				//Invite request: invite_hostaddress_port | invite_130.182.0.19_37897
 				if(userInput.startsWith("invite_")){
 					String[] port = userInput.split("_");
-					try{
-						ipTelephone.sendInvite(port[1], Integer.parseInt(port[2]));
-					}catch(ConnectException e){
-						System.out.println("Peer unreachable!");
+					String hostaddress = port[1];
+					if(isValidIP(hostaddress)){
+						try{
+							ipTelephone.sendInvite(hostaddress, SIP_PORT);
+						}catch(SocketException e){
+							System.out.println("Peer unreachable!");
+						}
+					}
+					else{
+						System.out.println("IP address is not valid!");
 					}
 				}
-				
 				switch (userInput) {
 				case "0":
-					done = true;
-					break;
-//				case "1":
-//					 ipTelephone.sendInvite();
-//					break;
-//				case "2":	
-//					ipTelephone.receiveInvite();
-//					break;
-				case "3":
-					ipTelephone.sendTROK();
-					break;
-//				case "4":
-//					ipTelephone.receiveTROK();
-//					break;
-				case "5":
-					ipTelephone.sendAck();
-					break;
-//				case "6":
-//					ipTelephone.receiveAck();
-//					break;
-				case "7":
 					ipTelephone.sendBye();
 					break;
-//				case "8":
-//					ipTelephone.receiveBye();
-//					break;
-				case "9":
-					ipTelephone.sendOk();
-					break;
-//				case "10":
-//					ipTelephone.receiveOk();
-//					break;
-				case "11":
-					ipTelephone.timeout();
-					break;
-				case "12":
-					ipTelephone.loseConnection();
+				case "1":
+					ipTelephone.sendTROK();
 					break;
 				default:
 					break;
 				}
-				System.out.println("----State: " + ipTelephone.getStateName()+"----");
+				//System.out.println("----State: " + ipTelephone.getStateName()+"----");
 				displayOptions();
 			}else{
 				Thread.sleep(1000/2);
@@ -91,22 +66,39 @@ public class StartIPTelephone {
 		System.out.println("IPTelephone close connection!");
 	}
 	
+	public static boolean isValidIP(String ip){
+		//System.out.println(ip.length());
+		String[] ipaddress = ip.split(Pattern.quote("."));
+		System.out.println(ipaddress.length);
+		if(ipaddress.length != 4){
+			return false;
+		}
+		for(String s: ipaddress){
+			try{
+				Integer.parseInt(s);
+			}catch(NumberFormatException n){
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public static void displayOptions(){
 		System.out.println();
-		System.out.println("Select: ");
-		System.out.println("CloseProgram:0");
-//		System.out.println("sendinvite:1");
-//		System.out.println("receiveInvite:2");
-		System.out.println("sendTROK:3");
-//		System.out.println("receiveTROK:4");
-		System.out.println("sendAck:5");
-//		System.out.println("receiveAck:6");
-		System.out.println("sendBye:7");
-//		System.out.println("receiveBye:8");
-		System.out.println("sendOk:9");
-//		System.out.println("receiveOk:10");
-		System.out.println("timeout:11");
-		System.out.println("loseConnection:12");
+//		System.out.println("Select: ");
+//		System.out.println("CloseProgram:0");
+////		System.out.println("sendinvite:1");
+////		System.out.println("receiveInvite:2");
+//		System.out.println("sendTROK:3");
+////		System.out.println("receiveTROK:4");
+//		System.out.println("sendAck:5");
+////		System.out.println("receiveAck:6");
+//		System.out.println("sendBye:7");
+////		System.out.println("receiveBye:8");
+//		System.out.println("sendOk:9");
+////		System.out.println("receiveOk:10");
+//		System.out.println("timeout:11");
+//		System.out.println("loseConnection:12");
 		System.out.print("Dial@: ");
 
 	}

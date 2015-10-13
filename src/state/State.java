@@ -46,7 +46,7 @@ public abstract class State {
 		return this;
 	}
 	
-	public State sendAck()throws IOException {
+	public State sendAck() {
 		System.out.println("You have to start a session!");
 		return this;
 	}

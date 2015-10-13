@@ -1,6 +1,5 @@
 package state;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 
 import main.IPTelephone;
@@ -18,11 +17,10 @@ public class SendingAck extends State {
 		return "SENDING_ACK";
 	}
 	
-	public State sendAck() throws IOException {
+	public State sendAck(){
 		//System.out.println("--sendAck--");
 		PrintWriter out = ipTelephone.getWriter();
 		out.println("ACK");
-		ipTelephone.setTimeout(0);
 		return new Connected(ipTelephone);
 	}
 }

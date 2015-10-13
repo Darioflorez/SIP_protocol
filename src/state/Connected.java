@@ -1,5 +1,6 @@
 package state;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 
 import main.IPTelephone;
@@ -10,7 +11,12 @@ public class Connected extends State {
 	
 	public Connected(IPTelephone ipTelephone) {
 		this.ipTelephone = ipTelephone;
-		//ipTelephone.startStreaming();
+		try {
+			ipTelephone.startStreaming();
+		} catch (IOException e) {
+			System.out.println("Problem when starting audio streaming!");
+			e.printStackTrace();
+		}
 		System.out.println("RemotePort: " + ipTelephone.getRemotePort());
 	}
 	

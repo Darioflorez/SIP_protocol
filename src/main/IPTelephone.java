@@ -101,7 +101,7 @@ public class IPTelephone {
 		currentState = currentState.sendTROK();
 	}
 	
-	public synchronized void sendAck() throws IOException{
+	public synchronized void sendAck() {
 		currentState = currentState.sendAck();
 	}
 	
