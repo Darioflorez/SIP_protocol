@@ -24,14 +24,13 @@ public class Connected extends State {
 	public String getStateName() {
 		return "CONNECTED";
 	}
-	
+	@Override
 	public State receiveBye() {
 		//SendOK automatic
-		//close streaming
 		State sendingOk = new SendingOk(ipTelephone);
 		return sendingOk.sendOk();
 	}
-	
+	@Override
 	public State sendBye() {
 		//System.out.println("--sendBye--");
 		PrintWriter out = ipTelephone.getWriter();

@@ -17,7 +17,7 @@ public class StartIPTelephone {
 		ConnectionListener listener = new ConnectionListener(ipTelephone, SIP_PORT);
 		listener.start();
 		
-		Thread.sleep(1000/4);
+		Thread.sleep(1000/8);
 		
 		//CREATE SCANNER
 		BufferedReader scanner = new BufferedReader
@@ -27,26 +27,25 @@ public class StartIPTelephone {
 		//Server <--- Ringing: send TROK
 		String userInput;
 		boolean done = false;
-		System.out.println("\nWelcome to IPTelephone :)");
+		System.out.println("\n----Welcome to IPTelephone----");
 		System.out.println("Invite a peer: invite_ipAddress");
 		displayOptions();
 		while(!done){
-			if(scanner.ready()){
-				userInput = scanner.readLine();
-				if(userInput.startsWith("invite_")){
-					String[] port = userInput.split("_");
-					String hostaddress = port[1];
-					if(isValidIP(hostaddress)){
-						try{
-							ipTelephone.sendInvite(hostaddress, SIP_PORT);
-						}catch(SocketException e){
-							System.out.println("Peer unreachable!");
-						}
-					}
-					else{
-						System.out.println("IP address is not valid!");
+			userInput = scanner.readLine();
+			if(userInput.startsWith("invite_")){
+				String[] port = userInput.split("_");
+				String hostaddress = port[1];
+				if(isValidIP(hostaddress)){
+					try{
+						ipTelephone.sendInvite(hostaddress, SIP_PORT);
+					}catch(SocketException e){
+						System.out.println("Peer unreachable!");
 					}
 				}
+				else {
+					System.out.println("IP address is not valid!");
+				}
+			}else {
 				switch (userInput) {
 				case "0":
 					ipTelephone.sendBye();
@@ -57,11 +56,9 @@ public class StartIPTelephone {
 				default:
 					break;
 				}
-				//System.out.println("----State: " + ipTelephone.getStateName()+"----");
-				displayOptions();
-			}else{
-				Thread.sleep(1000/2);
 			}
+			//System.out.println("----State: " + ipTelephone.getStateName()+"----");
+			displayOptions();
 		}
 		System.out.println("IPTelephone close connection!");
 	}

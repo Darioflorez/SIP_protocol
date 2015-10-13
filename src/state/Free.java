@@ -60,7 +60,10 @@ public class Free extends State {
 		System.out.println("Press 2 to hang up");
 	}
 	public void displayHangUp(){
-		System.out.println("\n" + "--Ringing.....");
-		System.out.println("Press 2 to hang up");
+		System.out.println("\n" + "Ringing.....");
+		System.out.println("Press 0 to hang up");
+	}
+	public void displayInfo(String info){
+		System.out.println("Info: " + info);
 	}
 }

@@ -1,5 +1,7 @@
 package state;
 
+import java.io.IOException;
+
 import main.IPTelephone;
 
 public class WaitingForOk extends State {
@@ -16,6 +18,11 @@ public class WaitingForOk extends State {
 	}
 	
 	public State receiveOk() {
+//		try {
+//			ipTelephone.closeConnection();
+//		} catch (IOException e) {
+//			System.out.println("Problem when closing connection: " + e.getMessage());
+//		}
 		return new Free(ipTelephone);
 	}
 }

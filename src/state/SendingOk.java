@@ -18,14 +18,10 @@ public class SendingOk extends State {
 		return "SENDING_OK";
 	}
 	
+	@Override
 	public State sendOk(){
 		PrintWriter out = ipTelephone.getWriter();
 		out.println("OK");
-		try {
-			ipTelephone.closeConnection();
-		} catch (IOException e) {
-			System.out.println("Problem when closing connection: " + e.getMessage());
-		}
 		return new Free(ipTelephone);
 	}
 }
