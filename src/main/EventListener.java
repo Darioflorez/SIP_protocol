@@ -27,43 +27,58 @@ public class EventListener extends Thread{
 				String peerInput = in.readLine();
 				if(peerInput != null){
 					//System.out.println("--EventListener Got--"+ peerInput + "--");
-					switch (peerInput) {
-					case "INVITE":
-						ipTelephone.receiveInvite(peer);
+					if(peerInput.startsWith("INVITE_")){
+						String[] port = peerInput.split("_");
+						ipTelephone.receiveInvite(peer,Integer.parseInt(port[1]));
 						System.out.println("\n"+"--State: " + ipTelephone.getStateName()+ "--");
 						displayOptions();
-						break;
-					case "ACK":
-						//Change state to connected
-						ipTelephone.receiveAck();
+					}else if(peerInput.startsWith("TROK__")){
+						String[] port = peerInput.split("_");
+						ipTelephone.receiveTROK(Integer.parseInt(port[1]));
 						System.out.println("\n"+"--State: " + ipTelephone.getStateName()+ "--");
 						displayOptions();
-						break;
-					case "BYE":
-						ipTelephone.receiveBye();
-						done = true;
-						System.out.println("\n"+"--State: " + ipTelephone.getStateName()+ "--");
-						displayOptions();
-						break;
-					case "OK":
-						ipTelephone.receiveOk();
-						done = true;
-						System.out.println("\n"+"--State: " + ipTelephone.getStateName()+ "--");
-						displayOptions();
-						break;
-					case "TROK":
-						ipTelephone.receiveTROK();
-						System.out.println("\n"+"--State: " + ipTelephone.getStateName()+ "--");
-						displayOptions();
-						break;
-					case "BUSY":
-						ipTelephone.receiveBusy();
-						System.out.println("\n"+"--State: " + ipTelephone.getStateName()+ "--");
-						done = true;
-						displayOptions();
-						break;
-					default:
-						break;
+					}
+					else{
+						switch (peerInput) {
+//						case "INVITE":
+//							//Send port
+//							ipTelephone.receiveInvite(peer);
+//							System.out.println("\n"+"--State: " + ipTelephone.getStateName()+ "--");
+//							displayOptions();
+//							break;
+						case "ACK":
+							//Change state to connected
+							ipTelephone.receiveAck();
+							System.out.println("\n"+"--State: " + ipTelephone.getStateName()+ "--");
+							displayOptions();
+							break;
+						case "BYE":
+							ipTelephone.receiveBye();
+							done = true;
+							System.out.println("\n"+"--State: " + ipTelephone.getStateName()+ "--");
+							displayOptions();
+							break;
+						case "OK":
+							ipTelephone.receiveOk();
+							done = true;
+							System.out.println("\n"+"--State: " + ipTelephone.getStateName()+ "--");
+							displayOptions();
+							break;
+//						case "TROK":
+//							//Send port
+//							ipTelephone.receiveTROK();
+//							System.out.println("\n"+"--State: " + ipTelephone.getStateName()+ "--");
+//							displayOptions();
+//							break;
+						case "BUSY":
+							ipTelephone.receiveBusy();
+							System.out.println("\n"+"--State: " + ipTelephone.getStateName()+ "--");
+							done = true;
+							displayOptions();
+							break;
+						default:
+							break;
+						}
 					}
 				} else {
 					//Peer is died

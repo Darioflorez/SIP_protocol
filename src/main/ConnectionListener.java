@@ -20,7 +20,7 @@ public class ConnectionListener extends Thread {
 		{
 			System.out.println("PORT: " + port);
 			while(true){
-				Socket peer = listeningSocket.accept();
+				Socket peer = listeningSocket.accept();		
 				//printMargin();
 				//System.out.println("\n"+"--State: "+ ipTelephone.getStateName()+"\n");
 				//System.out.println("--Client Port: " + peer.getPort()+ "--");

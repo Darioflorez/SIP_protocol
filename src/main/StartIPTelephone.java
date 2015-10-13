@@ -7,6 +7,8 @@ import java.net.ConnectException;
 
 public class StartIPTelephone {
 
+	public static final int SIP_PORT = 5060;
+	
 	public static void main(String[] args) throws IOException, InterruptedException {
 		
 		IPTelephone ipTelephone = new IPTelephone();

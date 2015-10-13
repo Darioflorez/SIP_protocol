@@ -4,29 +4,54 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
 
+import audio.AudioStreamUDP;
 import state.Free;
 import state.State;
 
 public class IPTelephone {
 	
+	//INVITE: exchange port in this phase. ex "INVITE_myport"
+	//TROK: ex "TROK_myport"
 	
 	private State currentState;
 	private Socket peer;
 	private BufferedReader in;
 	private PrintWriter out;
+	private AudioStreamUDP stream;
+	private int localPort;
+	private int remotePort;
+	private InetAddress address;
 	
-	public IPTelephone() {
+	public IPTelephone() throws IOException {
+		stream = new AudioStreamUDP();
+		localPort = stream.getLocalPort();
+		System.out.println("LOCAL_PORT: " + localPort);
 		currentState = new Free(this);
 	}
 	
-	public void setSocket(Socket peer) throws IOException{
+	//Send remoteport when init
+	public void init(Socket peer) throws IOException{
 		this.peer = peer;
 		in = new BufferedReader
 				(new InputStreamReader(peer.getInputStream()));
 		out = new PrintWriter(peer.getOutputStream(),true);
+		address = InetAddress.getByName(peer.getInetAddress().getHostAddress());
+	}
+	
+	public void setRemotePort(int remotePort){
+		this.remotePort = remotePort;
+	}
+	
+	public int getRemotePort(){
+		return remotePort;
+	}
+	
+	public int getLocalPort(){
+		return localPort;
 	}
 	
 	public BufferedReader getReader(){
@@ -44,9 +69,9 @@ public class IPTelephone {
 	//Define all the actions that can lead to another state
 	
 	//---------------------ReceiveActions------------------------------------
-	public synchronized void receiveInvite(Socket peer) throws IOException{
+	public synchronized void receiveInvite(Socket peer, int port) throws IOException{
 		System.out.println("Invite from: " + peer.getPort());
-		currentState = currentState.receiveInvite(peer);
+		currentState = currentState.receiveInvite(peer, port);
 	}
 	
 	public synchronized void receiveBye() {
@@ -57,8 +82,8 @@ public class IPTelephone {
 		currentState = currentState.receiveOk();
 	}
 	
-	public synchronized void receiveTROK() {
-		currentState = currentState.receiveTROK();
+	public synchronized void receiveTROK(int remotePort) {
+		currentState = currentState.receiveTROK(remotePort);
 	}
 	
 	public synchronized void receiveAck() throws IOException {
@@ -112,5 +137,10 @@ public class IPTelephone {
 	
 	public void setTimeout(int timeout) throws SocketException{
 		peer.setSoTimeout(timeout);
+	}
+
+	public void startStreaming() throws IOException{
+		stream.connectTo(address, remotePort);
+		stream.startStreaming();
 	}
 }

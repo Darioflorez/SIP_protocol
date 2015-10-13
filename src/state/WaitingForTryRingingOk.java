@@ -14,8 +14,9 @@ public class WaitingForTryRingingOk extends State {
 		return "WAITING_FOR_TRY_RINGING_OK";
 	}
 	
-	public State receiveTROK() {
+	public State receiveTROK(int remotePort) {
 		//System.out.println("--receiveTROK--");
+		ipTelephone.setRemotePort(remotePort);
 		return new SendingAck(ipTelephone);
 	}
 

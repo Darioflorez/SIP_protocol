@@ -18,12 +18,14 @@ public class Free extends State {
 	@Override
 	public String getStateName() {
 		return "FREE";
+		//if(stream != null) stream.close();
 	}
 	
 	@Override
-	public State receiveInvite(Socket peer) throws IOException{
+	public State receiveInvite(Socket peer, int port) throws IOException{
 		//System.out.println("--ReceiveInvite--");
-		ipTelephone.setSocket(peer);
+		ipTelephone.init(peer);
+		ipTelephone.setRemotePort(port);
 		return new SendingTROK(ipTelephone);
 	}
 	
@@ -31,14 +33,15 @@ public class Free extends State {
 	public State sendInvite(String hostaddress, int port) throws IOException{
 		//System.out.println("--SendInvite--");
 		Socket peer = new Socket(hostaddress, port);
-		ipTelephone.setSocket(peer);
+		int localPort = ipTelephone.getLocalPort();
+		ipTelephone.init(peer);
 		
 		//System.out.println("--Client Port: "+peer.getLocalPort()+"--");
 		PrintWriter out = ipTelephone.getWriter();
 //		Scanner scanner = new Scanner(System.in);
 //		System.out.print("#Sendinvite> ");
 //		String invite = scanner.nextLine();
-		out.println("INVITE");
+		out.println("INVITE_"+Integer.toString(localPort));
 		
 		//System.out.println("INVITE to: " + peer.getPort());
 		

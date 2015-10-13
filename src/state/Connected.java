@@ -10,6 +10,8 @@ public class Connected extends State {
 	
 	public Connected(IPTelephone ipTelephone) {
 		this.ipTelephone = ipTelephone;
+		//ipTelephone.startStreaming();
+		System.out.println("RemotePort: " + ipTelephone.getRemotePort());
 	}
 	
 	@Override

@@ -11,7 +11,7 @@ public abstract class State {
 	//Define all the actions that can lead to another state
 	
 	//---------------------ReceiveActions------------------------------------
-	public State receiveInvite(Socket peer) throws IOException{
+	public State receiveInvite(Socket peer, int remotePort) throws IOException{
 		//System.out.println("Abstract class: " + peer.getPort());
 		PrintWriter out = new PrintWriter(peer.getOutputStream(), true);
 		out.println("BUSY");
@@ -26,7 +26,7 @@ public abstract class State {
 		return this;
 	}
 	
-	public State receiveTROK() {
+	public State receiveTROK(int remotePort) {
 		return this;
 	}
 	
