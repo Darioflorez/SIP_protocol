@@ -23,7 +23,9 @@ public class Free extends State {
 	@Override
 	public State receiveInvite(Socket peer, int port) throws IOException{
 		displayAnswer();
+		//Create a socket and an audio streaming
 		ipTelephone.init(peer);
+		//Set the port for the audio communication
 		ipTelephone.setRemotePort(port);
 		//Send TROK direkt
 		displayProtocoll("<-- INVITE");
@@ -32,9 +34,11 @@ public class Free extends State {
 	
 	@Override
 	public State sendInvite(String hostaddress, int port) throws IOException{
+		//Connect to a remote socket
 		Socket peer = new Socket(hostaddress, port);
-		int localPort = ipTelephone.getLocalPort();
+		//Create an audio streaming
 		ipTelephone.init(peer);
+		int localPort = ipTelephone.getLocalPort();
 		
 		PrintWriter out = ipTelephone.getWriter();
 		String invite = "INVITE_"+Integer.toString(localPort);
