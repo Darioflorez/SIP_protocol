@@ -71,12 +71,13 @@ public class EventListener extends Thread{
 				} else {
 					//Peer is died
 					System.out.println("\n" + "Peer has died!");
+					//We have a problem here
 					ipTelephone.loseConnection();
+					//
 					System.out.println("\n"+"--State: " + ipTelephone.getStateName()+ "--");
 					displayOptions();
 					done = true;
 				}
-				//printMargin();
 			}
 		}catch(IOException e){
 			try {
@@ -91,10 +92,6 @@ public class EventListener extends Thread{
 			System.out.println(e.getMessage());
 			done = true;
 		}
-//			catch (InterruptedException e) {
-//			System.out.println(e.getMessage());
-//			done = true;
-//		}
 		System.out.println("\n" + "EventListener Close!");
 	}
 	
@@ -106,8 +103,4 @@ public class EventListener extends Thread{
 		System.out.print("Dial@: ");
 
 	}
-	
-//	private void printMargin(){
-//		System.out.println("******************************");
-//	}
 }
