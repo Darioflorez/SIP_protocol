@@ -12,6 +12,7 @@ public class Free extends State {
 	
 	public Free(IPTelephone ipTelephone) {
 		this.ipTelephone = ipTelephone;
+		displayInitialPrompt();
 	}
 	
 	@Override
@@ -68,5 +69,11 @@ public class Free extends State {
 		System.out.println("Press x to close app");
 		System.out.println("Press 0 to hang up");
 		System.out.println("Dial@: ");
+	}
+	
+	public void displayInitialPrompt(){
+		System.out.println("Invite a peer: invite_ipAddress");
+		System.out.println("Press x to close app");
+		System.out.print("Dial@: ");
 	}
 }
