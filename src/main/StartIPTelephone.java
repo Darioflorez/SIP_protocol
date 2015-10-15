@@ -5,10 +5,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.SocketException;
 import java.util.regex.Pattern;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class StartIPTelephone {
 
 	public static final int SIP_PORT = 5060;
+	private static Timer timer;
+
 	
 	public static void main(String[] args) throws IOException, InterruptedException {
 		
@@ -39,6 +43,8 @@ public class StartIPTelephone {
 				if(isValidIP(hostaddress)){
 					try{
 						ipTelephone.sendInvite(hostaddress, SIP_PORT);
+						timer = new Timer();
+						timer.schedule(new StopCalling(ipTelephone), 8000);
 					}catch(SocketException e){
 						System.out.println("Peer unreachable!");
 					}
@@ -69,6 +75,25 @@ public class StartIPTelephone {
 			displayOptions();
 		}
 		System.out.println("IPTelephone close connection!");
+	}
+
+	static class StopCalling extends TimerTask {
+		IPTelephone ipTelephone;
+		StopCalling(IPTelephone ipTelephone) {
+			this.ipTelephone=ipTelephone;
+		}
+		public void run() {
+			System.out.println("No answer on the other end!");
+			timer.cancel();
+			if(!ipTelephone.getStateName().equals("CONNECTED")) {
+				try {
+					ipTelephone.timeout();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
+		}
 	}
 	
 	public static boolean isValidIP(String ip){
