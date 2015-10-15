@@ -83,16 +83,16 @@ public class StartIPTelephone {
 			this.ipTelephone=ipTelephone;
 		}
 		public void run() {
-			System.out.println("No answer on the other end!");
-			timer.cancel();
 			if(!ipTelephone.getStateName().equals("CONNECTED")) {
+				System.out.println("No answer on the other end!");
+
 				try {
 					ipTelephone.timeout();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-
+			timer.cancel();
 		}
 	}
 	
