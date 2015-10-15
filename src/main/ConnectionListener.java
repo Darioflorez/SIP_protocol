@@ -18,17 +18,23 @@ public class ConnectionListener extends Thread {
 	}
 	
 	public void run(){
-//		Random rand = new Random();
-//		int port = rand.nextInt((49151 - 1024) + 1) + 1024;
-		
-		//System.out.println("PORT: " + port);
+
 		try
 		{
 			listeningSocket = new ServerSocket(sipPort);
 			while(!done){
-				Socket peer = listeningSocket.accept();		
-				EventListener phoneServer = new EventListener(peer, ipTelephone);
-				phoneServer.start();
+				Socket peer = listeningSocket.accept();
+
+				if(ipTelephone.getStateName().equals("FREE")) {
+					EventListener phoneServer = new EventListener(peer, ipTelephone);
+					phoneServer.start();
+				}
+				else {
+					int port = peer.getPort();
+					ipTelephone.receiveInvite(peer,port);
+				}
+
+
 			}
 		} catch (IOException e) {
 			System.out.println("Connection listener closed!");
