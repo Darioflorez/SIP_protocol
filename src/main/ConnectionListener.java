@@ -25,6 +25,7 @@ public class ConnectionListener extends Thread {
 			while(!done){
 				Socket peer = listeningSocket.accept();			
 				if(ipTelephone.getStateName().equals("FREE")){	
+					
 					EventListener phoneServer = new EventListener(peer, ipTelephone);
 					phoneServer.start();
 				}

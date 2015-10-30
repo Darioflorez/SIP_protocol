@@ -16,7 +16,7 @@ public class WaitingForOk extends State {
 	public String getStateName() {
 		return "WAITING_FOR_OK";
 	}
-	
+	@Override
 	public State receiveOk() {
 		try {
 			ipTelephone.closeConnection();

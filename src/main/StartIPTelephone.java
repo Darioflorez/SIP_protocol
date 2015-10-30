@@ -8,19 +8,26 @@ import java.util.regex.Pattern;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/*Authors: Dario Florez
+ * Johan Ejdemark
+ * */
 public class StartIPTelephone {
 
-	public static final int SIP_PORT = 5060;
 	private static Timer timer;
-
 	
 	public static void main(String[] args) throws IOException, InterruptedException {
 		
+		if(args.length < 1){
+			System.out.println("Missing Port nummer!");
+			return;
+		}
+		
 		System.out.println("\n----Welcome to IPTelephone----");
 		
+		int sip_port = Integer.parseInt(args[0]);
 		IPTelephone ipTelephone = new IPTelephone();
 		
-		ConnectionListener listener = new ConnectionListener(ipTelephone, SIP_PORT);
+		ConnectionListener listener = new ConnectionListener(ipTelephone, sip_port);
 		listener.start();
 		
 		Thread.sleep(1000/8);
@@ -39,7 +46,7 @@ public class StartIPTelephone {
 				String hostaddress = port[1];
 				if(isValidIP(hostaddress)){
 					try{
-						ipTelephone.sendInvite(hostaddress, SIP_PORT);
+						ipTelephone.sendInvite(hostaddress, sip_port);
 						timer = new Timer();
 						timer.schedule(new StopCalling(ipTelephone), 8000);
 					}catch(SocketException e){

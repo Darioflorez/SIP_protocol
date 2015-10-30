@@ -60,15 +60,6 @@ public abstract class State {
 		return this;
 	}
 	//-----------------------------------------------------------------------
-	
-//	public State timeout(){
-//		return new Free();
-//	}
-//	
-//	public State loseConnection(IPTelephone ipTelephone){
-//		return new Free(ipTelephone);
-//	}
-	
 	//Information function:
 	public void displayProtocoll(String protocol){
 		System.out.println("\nProtocol: " + protocol);
