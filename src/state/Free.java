@@ -72,7 +72,7 @@ public class Free extends State {
 	}
 	
 	public void displayInitialPrompt(){
-		System.out.println("Invite a peer: invite_ipAddress");
+		System.out.println("Invite a peer: invite_ipAddress_port");
 		System.out.println("Press x to close app");
 		System.out.print("Dial@: ");
 	}

@@ -42,11 +42,12 @@ public class StartIPTelephone {
 			userInput = scanner.readLine();
 			
 			if(userInput.startsWith("invite_")){
-				String[] port = userInput.split("_");
-				String hostaddress = port[1];
+				String[] address_port = userInput.split("_");
+				String hostaddress = address_port[1];
+				int port = Integer.parseInt(address_port[2]);
 				if(isValidIP(hostaddress)){
 					try{
-						ipTelephone.sendInvite(hostaddress, sip_port);
+						ipTelephone.sendInvite(hostaddress, port);
 						timer = new Timer();
 						timer.schedule(new StopCalling(ipTelephone), 8000);
 					}catch(SocketException e){

@@ -7,20 +7,20 @@ import java.net.Socket;
 public class ConnectionListener extends Thread {
 	
 	private IPTelephone ipTelephone;
-	private int sipPort;
+	private int sip_port;
 	private boolean done;
 	private ServerSocket listeningSocket;
 	
-	public ConnectionListener(IPTelephone ipThelephone, int sipPort) {
+	public ConnectionListener(IPTelephone ipThelephone, int sip_port) {
 		this.ipTelephone = ipThelephone;
-		this.sipPort = sipPort;
+		this.sip_port = sip_port;
 		done = false;
 	}
 	
 	public void run(){
 		try
 		{
-			listeningSocket = new ServerSocket(sipPort);
+			listeningSocket = new ServerSocket(sip_port);
 			
 			while(!done){
 				Socket peer = listeningSocket.accept();			
@@ -35,6 +35,7 @@ public class ConnectionListener extends Thread {
 				}
 			}
 		} catch (IOException e) {
+			System.out.println(e.getMessage());
 			System.out.println("Connection listener closed!");
 		}
 	}
